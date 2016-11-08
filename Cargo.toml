@@ -1,7 +1,11 @@
 [package]
 name = "iter_utils"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Peter Jin <peterhaijin@gmail.com>"]
+license = "BSD-2-Clause"
+description = "Iterator utils."
+repository = "https://github.com/peterhj/libiter_utils"
+keywords = ["argmax", "iterator"]
 
 [lib]
 name = "iter_utils"

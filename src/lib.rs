@@ -15,56 +15,6 @@ pub fn argmax<T, Iter>(xs: Iter) -> Option<usize> where T: Copy + Ord, Iter: Ite
   argmax.map(|(i, _)| i)
 }
 
-pub trait KahanSum<A=Self> {
-  fn kahan_sum<Iter>(iter: Iter) -> Self where Iter: Iterator<Item=A>;
-}
-
-// XXX: See: <https://github.com/JuliaLang/julia/issues/199>.
-
-impl KahanSum for f32 {
-  fn kahan_sum<Iter>(mut iter: Iter) -> Self where Iter: Iterator<Item=f32> {
-    let mut s = 0.0;
-    if let Some(x0) = iter.next() {
-      s = x0;
-    } else {
-      return 0.0;
-    }
-    let mut c = 0.0;
-    for x in iter.next() {
-      let t = s + x;
-      if s.abs() >= x.abs() {
-        c += (s-t) + x;
-      } else {
-        c += (x-t) + s;
-      }
-      s = t;
-    }
-    s + c
-  }
-}
-
-impl KahanSum for f64 {
-  fn kahan_sum<Iter>(mut iter: Iter) -> Self where Iter: Iterator<Item=f64> {
-    let mut s = 0.0;
-    if let Some(x0) = iter.next() {
-      s = x0;
-    } else {
-      return 0.0;
-    }
-    let mut c = 0.0;
-    for x in iter.next() {
-      let t = s + x;
-      if s.abs() >= x.abs() {
-        c += (s-t) + x;
-      } else {
-        c += (x-t) + s;
-      }
-      s = t;
-    }
-    s + c
-  }
-}
-
 #[test]
 fn test_argmax() {
   let xs: Vec<usize> = vec![0, 3, 2, 1];
